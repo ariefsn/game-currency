@@ -15,7 +15,7 @@ services:
     volumes:
       - ${DB_VOLUME}:/var/lib/mysql
     ports:
-      - 3306:3306
+      - ${DB_PORT_EXPOSE}:3306
     networks:
       - gc-network
 
