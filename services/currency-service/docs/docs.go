@@ -29,7 +29,7 @@ var doc = `{
     "paths": {
         "/": {
             "get": {
-                "description": "Ping provider service",
+                "description": "Ping currency service",
                 "consumes": [
                     "application/json"
                 ],
@@ -39,7 +39,7 @@ var doc = `{
                 "tags": [
                     "Root"
                 ],
-                "summary": "Ping provider service",
+                "summary": "Ping currency service",
                 "responses": {
                     "200": {
                         "description": "OK",

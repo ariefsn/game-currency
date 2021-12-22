@@ -60,15 +60,15 @@ func (c *RootController) Register(r *chi.Mux) *chi.Mux {
 }
 
 // Ping godoc
-// @Summary Ping provider service
-// @Description Ping provider service
+// @Summary Ping currency service
+// @Description Ping currency service
 // @Tags Root
 // @Accept json
 // @Produce json
 // @Success 200 {object} swagger.ResponseSuccessText
 // @Failure 400,404,500 {object} swagger.ResponseError
 // @Router / [get]
-// Handler for ping provider service
+// Handler for ping currency service
 func (c *RootController) Ping(rw http.ResponseWriter, r *http.Request) {
 	RenderSuccess(rw, http.StatusOK, fmt.Sprintf("%v is running", helper.GetEnv().ServiceName))
 }
