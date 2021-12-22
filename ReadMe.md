@@ -2,13 +2,14 @@
 
 > Game Currency.
 
+## [Demo](https://gc.ariefsn.dev/api/docs/index.html)
+
 ## Dependencies
 
 - [Go Chi](https://github.com/go-chi/chi)
 - [Unrolled Secure](https://github.com/unrolled/secure)
 - [Unrolled Render](https://github.com/unrolled/render)
 - [Gorm](https://gorm.io/)
-- [Go Resty](https://github.com/go-resty/resty)
 - [HTTP Swagger](https://github.com/swaggo/http-swagger)
 
 ## Requirements
@@ -33,6 +34,11 @@
 ## Testing
 
 - Run `go test ./services/currency-service/controllers ./services/currency-service/repositories -v`
+
+## Database
+
+- MariaDB
+- [Schema](https://dbdiagram.io/d/61c168743205b45b73c6a8a9)
 
 ## Tools
 
