@@ -1,0 +1,3 @@
+services/currency-service/.env
+.env
+volumes/*

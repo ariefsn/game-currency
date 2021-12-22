@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  database-service:
+    image: mariadb:latest
+    container_name: gc-database-service
+    mem_limit: 250m
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+    volumes:
+      - ${DB_VOLUME}:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - gc-network
+
+  currency-service:
+    build:
+      context: .
+      dockerfile: ./services/currency-service/Dockerfile
+    container_name: gc-currency-service
+    mem_limit: 50m
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - HOST=${CURRENCY_SERVICE_HOST}
+      - PORT=${CURRENCY_SERVICE_PORT}
+      - SERVICE_NAME=${CURRENCY_SERVICE_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_TIMEZONE=${DB_TIMEZONE}
+      - CORS_ORIGINS=${CURRENCY_SERVICE_CORS_ORIGINS}
+      - CORS_METHODS=${CURRENCY_SERVICE_CORS_METHODS}
+      - CORS_HEADERS=${CURRENCY_SERVICE_CORS_HEADERS}
+      - SWAGGER_PROTOCOL=${CURRENCY_SERVICE_SWAGGER_PROTOCOL}
+      - SWAGGER_HOST=${CURRENCY_SERVICE_SWAGGER_HOST}
+      - SWAGGER_PORT=${CURRENCY_SERVICE_SWAGGER_PORT}
+      - SWAGGER_BASE_PATH=${CURRENCY_SERVICE_SWAGGER_BASE_PATH}
+      - RETRY_COUNT=${RETRY_COUNT}
+      - RETRY_DELAY=${RETRY_DELAY}
+      - RETRY_DELAY_MAX=${RETRY_DELAY_MAX}
+    ports:
+      - ${CURRENCY_SERVICE_PORT}:${CURRENCY_SERVICE_PORT}
+    networks:
+      - gc-network
+    depends_on:
+      - database-service
+
+networks:
+  gc-network:

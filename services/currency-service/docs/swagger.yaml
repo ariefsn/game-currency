@@ -1,0 +1,559 @@
+basePath: /
+definitions:
+  swagger.ListMap:
+    properties:
+      items:
+        items:
+          type: object
+        type: array
+      total:
+        example: 0
+        type: integer
+    type: object
+  swagger.PayloadConvert:
+    properties:
+      amount:
+        example: 10
+        type: number
+      fromIdCurrency:
+        example: string
+        type: string
+      toIdCurrency:
+        example: string
+        type: string
+    type: object
+  swagger.PayloadCurrency:
+    properties:
+      name:
+        example: string
+        type: string
+    type: object
+  swagger.PayloadRate:
+    properties:
+      fromIdCurrency:
+        example: string
+        type: string
+      rate:
+        example: 10
+        type: number
+      toIdCurrency:
+        example: string
+        type: string
+    type: object
+  swagger.ResponseConvert:
+    properties:
+      data:
+        example: 0
+        type: number
+      message:
+        example: some error message
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  swagger.ResponseCurrency:
+    properties:
+      data:
+        additionalProperties:
+          type: string
+        example:
+          createdAt: datetime
+          id: string
+          name: string
+          updatedAt: datetime
+        type: object
+      message:
+        example: some error message
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  swagger.ResponseCurrencyList:
+    properties:
+      data:
+        $ref: '#/definitions/swagger.ListMap'
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  swagger.ResponseError:
+    properties:
+      data:
+        type: object
+      message:
+        example: some error message
+        type: string
+      success:
+        example: false
+        type: boolean
+    type: object
+  swagger.ResponseRate:
+    properties:
+      data:
+        additionalProperties:
+          type: string
+        example:
+          createdAt: datetime
+          fromIdCurrency: string
+          id: string
+          rate: float64
+          toIdCurrency: string
+          updatedAt: datetime
+        type: object
+      message:
+        example: some error message
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  swagger.ResponseRateList:
+    properties:
+      data:
+        $ref: '#/definitions/swagger.ListMap'
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  swagger.ResponseSuccessText:
+    properties:
+      data:
+        example: some data
+        type: string
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+info:
+  contact:
+    email: ayiexz22@gmail.com
+    name: API Support
+    url: https://www.ariefsn.dev
+  version: "3.0"
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Ping provider service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseSuccessText'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Ping provider service
+      tags:
+      - Root
+  /convert:
+    post:
+      consumes:
+      - application/json
+      description: Start a new convertion
+      parameters:
+      - description: Payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/swagger.PayloadConvert'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseConvert'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Start convert
+      tags:
+      - Convert
+  /currency:
+    get:
+      consumes:
+      - application/json
+      description: Get currency list
+      parameters:
+      - description: Name
+        in: query
+        name: name
+        type: string
+      - description: Skip
+        in: query
+        name: skip
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Orders
+        in: query
+        name: orders
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseCurrencyList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Currency list
+      tags:
+      - Currency
+    post:
+      consumes:
+      - application/json
+      description: Create a new currency
+      parameters:
+      - description: Payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/swagger.PayloadCurrency'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseSuccessText'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Create currency
+      tags:
+      - Currency
+  /currency/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete existing currency
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseSuccessText'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Currency delete
+      tags:
+      - Currency
+    get:
+      consumes:
+      - application/json
+      description: Get currency detail
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseCurrency'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Currency detail
+      tags:
+      - Currency
+    put:
+      consumes:
+      - application/json
+      description: Update existing currency
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/swagger.PayloadCurrency'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseSuccessText'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Currency update
+      tags:
+      - Currency
+  /rate:
+    get:
+      consumes:
+      - application/json
+      description: Get rate list
+      parameters:
+      - description: Skip
+        in: query
+        name: skip
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Orders
+        in: query
+        name: orders
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseRateList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Rate list
+      tags:
+      - Rate
+    post:
+      consumes:
+      - application/json
+      description: Create a new rate
+      parameters:
+      - description: Payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/swagger.PayloadRate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseSuccessText'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Create rate
+      tags:
+      - Rate
+  /rate/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete existing rate
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseSuccessText'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Rate delete
+      tags:
+      - Rate
+    get:
+      consumes:
+      - application/json
+      description: Get rate detail
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseRate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Rate detail
+      tags:
+      - Rate
+    put:
+      consumes:
+      - application/json
+      description: Update existing rate
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/swagger.PayloadRate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.ResponseSuccessText'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.ResponseError'
+      summary: Rate update
+      tags:
+      - Rate
+swagger: "2.0"
